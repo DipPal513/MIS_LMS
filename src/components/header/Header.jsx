@@ -3,7 +3,7 @@ import { FaSearch, FaUser } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md w-full px-4 sm:px-8 lg:px-16">
+    <header className="z-10 relative bg-white shadow-md w-full px-4 sm:px-8 lg:px-16">
       <div className="flex items-center justify-between py-3 max-w-screen-xl mx-auto">
         {/* Logo */}
         <div className="flex items-center space-x-2">
