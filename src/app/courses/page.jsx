@@ -1,6 +1,9 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AllCoursesPage = () => {
+  const router = useRouter()
   const courses = [
     {
       id: 1,
@@ -36,7 +39,8 @@ const AllCoursesPage = () => {
             {courses.map((course) => (
               <div
                 key={course.id}
-                className="bg-white rounded-md shadow border p-4 hover:shadow-lg transition-shadow"
+                className="cursor-pointer bg-white rounded-md shadow border p-4 hover:shadow-lg transition-shadow"
+                onClick={() => router.push(`/courses/${course.id}`)}
               >
                 <img
                   src={"https://plus.unsplash.com/premium_photo-1720287601920-ee8c503af775?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}

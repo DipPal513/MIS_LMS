@@ -53,7 +53,7 @@ const SignInPage = () => {
         {/* Sign Up Link */}
         <p className="text-center text-gray-600 mt-4">
           Don’t have an account?{" "}
-          <Link href="/signup" className="text-main hover:underline">
+          <Link href="/register" className="text-main hover:underline">
             Sign Up
           </Link>
         </p>

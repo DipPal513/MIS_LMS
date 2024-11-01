@@ -22,7 +22,9 @@ const Header = () => {
             <FaSearch />
           </div>
         </div>
-
+        <Link href={"/courses"} className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600">
+              <span>Courses</span> 
+            </Link>
         {/* Menu Items */}
         <div className="flex items-center space-x-4">
           <div className="relative group">
@@ -38,6 +40,7 @@ const Header = () => {
               </Link>
             </div>
           </div>
+          
           <div className="relative group">
             <button className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600">
               <span>About Us</span> <span>▼</span>
