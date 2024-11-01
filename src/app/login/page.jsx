@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
@@ -38,7 +39,7 @@ const SignInPage = () => {
           />
           <span
             onClick={togglePasswordVisibility}
-            className="absolute right-3 top-3 cursor-pointer text-gray-500"
+            className="absolute right-3 bottom-4 cursor-pointer text-gray-500"
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
