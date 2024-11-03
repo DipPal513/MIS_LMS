@@ -12,14 +12,14 @@ const SignInPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-0">
+      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-0">
         
         {/* Sign In Header */}
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Sign In</h2>
 
         {/* Email Input */}
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm text-gray-600 mb-2">Email</label>
+          <label htmlFor="email" className="block text-lg text-gray-600 mb-2">Email</label>
           <input
             type="email"
             id="email"
@@ -30,7 +30,7 @@ const SignInPage = () => {
 
         {/* Password Input */}
         <div className="mb-4 relative">
-          <label htmlFor="password" className="block text-sm text-gray-600 mb-2">Password</label>
+          <label htmlFor="password" className="block text-lg text-gray-600 mb-2">Password</label>
           <input
             type={showPassword ? "text" : "password"}
             id="password"
