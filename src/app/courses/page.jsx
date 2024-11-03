@@ -27,12 +27,12 @@ const AllCoursesPage = () => {
   ];
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-8 mb-8 px-4 sm:px-8 lg:px-16">
+    <div className="max-w-screen-xl mx-auto mt-8 mb-8 px-2 sm:px-8 lg:px-16">
       <div className="flex bg-white rounded-lg shadow border">
         
        
         {/* Main Content - Course Cards */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 py-3 px-2 sm:p-6">
           <h2 className="text-2xl border-b-2 pb-4 font-bold mb-6">All Courses</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
