@@ -58,7 +58,7 @@ const AllCoursesPage = () => {
                     href={`/courses/${course.id}`}
                     className="inline-block w-full text-center py-2 rounded-md bg-indigo-500 text-white shadow hover:bg-indigo-600 transition-colors"
                   >
-                    Enroll
+                    View Details
                   </Link>
                 </div>
               </div>
