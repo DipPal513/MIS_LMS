@@ -1,13 +1,13 @@
 "use client";
+import { base_url } from "@/utils/URL";
 import useFetch from "@/utils/useFetch";
-import { useState, useEffect } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { useParams } from "next/navigation";
-import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { base_url } from "@/utils/URL";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const courseDetailsPage = () => {
   const { id } = useParams();

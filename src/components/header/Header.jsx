@@ -1,19 +1,17 @@
 "use client";
-import Link from "next/link";
-import {
-  FaSearch,
-  FaUser,
-  FaChevronDown,
-  FaTachometerAlt,
-  FaUserCircle,
-  FaCog,
-  FaSignOutAlt,
-  FaBars, // Add hamburger icon
-} from "react-icons/fa";
-import { useState } from "react";
 import Cookies from "js-cookie";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import {
+  FaCog,
+  FaSearch,
+  FaSignOutAlt,
+  FaTachometerAlt,
+  FaUser,
+  FaUserCircle
+} from "react-icons/fa";
 
 const Header = () => {
   const router = useRouter();
