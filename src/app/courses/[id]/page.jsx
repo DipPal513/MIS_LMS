@@ -1,77 +1,124 @@
 "use client";
-import { useState } from "react";
+import useFetch from "@/utils/useFetch";
+import { useState, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { useParams } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { base_url } from "@/utils/URL";
 
-const CourseDetailsPage = () => {
+const courseDetailsPage = () => {
+  const { id } = useParams();
   const [activeTab, setActiveTab] = useState("Information");
   const [activeAccordion, setActiveAccordion] = useState(null);
+  const { data, loading: courseLoading, error } = useFetch(`/courses/${id}`);
+  const courseDetails = data?.data;
+  const [contentData, setContentData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
 
-  // Dummy data for demonstration
-  const courseDetails = {
-    title: "Advanced JavaScript Course",
-    subtitle: "Master JavaScript for Full-Stack Development",
-    price: "$199",
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-    description: [
-      "Understand advanced JavaScript concepts.",
-      "Implement ES6+ features effectively.",
-      "Master asynchronous programming with Promises and async/await.",
-      "Build and manipulate the DOM dynamically.",
-      "Write optimized and clean JavaScript code.",
-    ],
-    content: Array.from({ length: 10 }, (_, index) => ({
-      title: `Module ${index + 1}: Advanced Topic ${index + 1}`,
-      details: "Detailed description and exercises for this module...",
-    })),
-    instructor: {
-      name: "John Doe",
-      expertise: "JavaScript, React, Node.js, Full-Stack Development",
-      photo: "https://via.placeholder.com/150",
-    },
+  const fetchData = async () => {
+    setLoading(true);
+    setFetchError(null);
+    const token = Cookies.get("token");
+
+    try {
+      const response = await axios.get(
+        `${base_url}/class-materials?orderBy=id&sortedBy=desc&page=1&search=course_id:${id}&searchJoin=and`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setContentData(response?.data?.data);
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+      setFetchError("Failed to fetch data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   const toggleAccordion = (index) => {
     setActiveAccordion(activeAccordion === index ? null : index);
   };
 
-  return (
-    <div className="w-full max-w-screen-xl mx-auto px-4">
-      {/* Top Section with Dark Blue Gradient Background */}
-      <div className="bg-gradient-to-r mt-5 from-blue-800 to-blue-600 text-white p-6 rounded-lg shadow-lg">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-          {/* Left: Video */}
-          <div className="w-full lg:w-1/3 mb-4 lg:mb-0">
-            <video
-              controls
-              className="w-full h-48 lg:h-56 rounded-lg shadow-lg"
-              src={courseDetails.videoUrl}
-            >
-              Your browser does not support the video tag.
-            </video>
+  if (courseLoading) {
+    return (
+      <div className="w-full max-w-screen-xl mx-auto px-4">
+        <div className=" mt-5 bg-[var(--main-color)] text-white p-6 rounded-lg shadow-lg">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div className="w-full lg:w-1/3 mb-4 lg:mb-0">
+              <Skeleton height={224} />
+            </div>
+            <div className="lg:w-2/3 lg:ml-6 text-left">
+              <Skeleton height={40} width={`80%`} />
+              <Skeleton height={20} width={`60%`} className="mt-2" />
+            </div>
           </div>
-
-          {/* Right: Title and Subtitle */}
-          <div className="lg:w-2/3 lg:ml-6 text-left">
-            <h1 className="text-3xl font-extrabold">{courseDetails.title}</h1>
-            <p className="mt-2 text-lg font-light">{courseDetails.subtitle}</p>
+        </div>
+        <div className="my-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-white border rounded-lg shadow-lg p-6 h-[210px]">
+            <Skeleton height={30} width={`80%`} />
+            <Skeleton height={20} width={`40%`} className="mt-4" />
+            <Skeleton height={40} className="mt-6" />
+          </div>
+          <div className="lg:col-span-2 bg-white border rounded-lg shadow-lg">
+            <div className="flex border-b border-gray-200">
+              {["Information", "Content", "Instructor"].map((tab) => (
+                <Skeleton key={tab} height={40} width={`33.33%`} />
+              ))}
+            </div>
+            <div className="p-6">
+              <Skeleton count={5} />
+            </div>
           </div>
         </div>
       </div>
+    );
+  }
 
-      {/* Main Content: Two-Column Layout */}
+  if (error) {
+    return <div>Error loading course details.</div>;
+  }
+
+  return (
+    <div className="w-full max-w-screen-xl mx-auto px-4">
+      <div className="bg-gradient-to-r mt-5 bg-[var(--main-color)] text-white p-6 rounded-lg shadow-lg">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+          <div className="w-full lg:w-1/3 mb-4 lg:mb-0">
+            <iframe
+              className="w-full h-48 lg:h-56 rounded-lg shadow-lg"
+              src={courseDetails?.intro_video}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+          <div className="lg:w-2/3 lg:ml-6 text-left">
+            <h1 className="text-3xl font-extrabold">{courseDetails?.title}</h1>
+            <p className="mt-2 text-lg font-light">{courseDetails?.description}</p>
+          </div>
+        </div>
+      </div>
       <div className="my-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Course Details */}
         <div className="bg-white border rounded-lg shadow-lg p-6 h-[210px]">
-          <h2 className="text-xl font-semibold mb-4">{courseDetails.title}</h2>
-          <p className="text-lg font-light mb-6">{courseDetails.price}</p>
+          <h2 className="text-xl font-semibold mb-4">{courseDetails?.title}</h2>
+          <p className="text-lg font-light ">{courseDetails?.price}</p>
+          <p className="font-semibold mb-3"> $399</p>
           <button className="w-full py-3 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
             Enroll Now
           </button>
         </div>
-
-        {/* Right Column: Tabs */}
         <div className="lg:col-span-2 bg-white border rounded-lg shadow-lg">
-          {/* Tabs */}
           <div className="flex border-b border-gray-200">
             {["Information", "Content", "Instructor"].map((tab) => (
               <button
@@ -87,60 +134,62 @@ const CourseDetailsPage = () => {
               </button>
             ))}
           </div>
-
-          {/* Tab Content */}
           <div className="p-6 transition-opacity duration-500">
             {activeTab === "Information" && (
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                {courseDetails.description.map((item, index) => (
+                {/* {courseDetails?.description?.map((item, index) => (
                   <li key={index}>{item}</li>
-                ))}
+                ))} */}
               </ul>
             )}
-
             {activeTab === "Content" && (
               <div className="space-y-4">
-                {courseDetails.content.map((module, index) => (
-                  <div
-                    key={index}
-                    className="border rounded-lg shadow-md overflow-hidden transition-shadow duration-300"
-                  >
-                    <button
-                      onClick={() => toggleAccordion(index)}
-                      className="w-full flex justify-between items-center py-3 px-4 bg-gray-100 hover:bg-gray-200 transition-all"
+                {loading ? (
+                  <Skeleton count={5} />
+                ) : fetchError ? (
+                  <div>{fetchError}</div>
+                ) : (
+                  contentData?.map((module, index) => (
+                    <div
+                      key={index}
+                      className="border rounded-lg shadow-md overflow-hidden transition-shadow duration-300"
                     >
-                      <span className="text-left font-semibold text-gray-800">
-                        {module.title}
-                      </span>
-                      {activeAccordion === index ? (
-                        <FaChevronUp className="text-blue-700" />
-                      ) : (
-                        <FaChevronDown className="text-blue-700" />
+                      <button
+                        onClick={() => toggleAccordion(index)}
+                        className="w-full flex justify-between items-center py-3 px-4 bg-gray-100 hover:bg-gray-200 transition-all"
+                      >
+                        <span className="text-left font-semibold text-gray-800">
+                          {module.title}
+                        </span>
+                        {activeAccordion === index ? (
+                          <FaChevronUp className="text-blue-700" />
+                        ) : (
+                          <FaChevronDown className="text-blue-700" />
+                        )}
+                      </button>
+                      {activeAccordion === index && (
+                        <div className="p-4 bg-white text-gray-700 transition-all duration-300">
+                          {module.link}
+                        </div>
                       )}
-                    </button>
-                    {activeAccordion === index && (
-                      <div className="p-4 bg-white text-gray-700 transition-all duration-300">
-                        {module.details}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  ))
+                )}
               </div>
             )}
-
             {activeTab === "Instructor" && (
               <div className="flex items-center space-x-4">
                 <img
-                  src={courseDetails.instructor.photo}
-                  alt={courseDetails.instructor.name}
+                  src={courseDetails?.instructor?.photo}
+                  alt={courseDetails?.coordinator_name}
                   className="w-24 h-24 rounded-full shadow-md"
                 />
                 <div>
                   <h3 className="text-xl font-semibold">
-                    {courseDetails.instructor.name}
+                    {courseDetails?.coordinator_name}
                   </h3>
                   <p className="text-gray-700">
-                    Expertise: {courseDetails.instructor.expertise}
+                    {courseDetails?.coordinator_number}
                   </p>
                 </div>
               </div>
@@ -152,4 +201,4 @@ const CourseDetailsPage = () => {
   );
 };
 
-export default CourseDetailsPage;
+export default courseDetailsPage;
