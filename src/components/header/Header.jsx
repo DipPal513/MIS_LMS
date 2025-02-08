@@ -18,7 +18,7 @@ const Header = () => {
   const loggedIn = true;
 
   return (
-    <header className="z-10 relative bg-white shadow-md w-full px-4 sm:px-8 lg:px-16">
+    <header className="z-10 relative bg-white  w-full px-4 sm:px-8 lg:px-16">
       <div className="flex items-center justify-between py-3 max-w-screen-xl mx-auto">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
@@ -46,65 +46,20 @@ const Header = () => {
         </div>
 
         {/* Menu Items */}
-        <div className={`flex items-center space-x-4 sm:space-x-6 text-base sm:text-lg ${isMenuOpen ? 'flex flex-col sm:flex-row' : 'hidden sm:flex'}`}>
-          {/* Skills Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600">
-              <span>Skills</span>
-              <FaChevronDown className="text-sm" />
-            </button>
-            <div className="absolute left-0 mt-2 w-56 bg-white shadow-md rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out transform scale-95 group-hover:scale-100">
-              <Link href="/skills/skill1" className="block px-4 py-2 hover:bg-gray-100">
-                Skill 1
-              </Link>
-              <Link href="/skills/skill2" className="block px-4 py-2 hover:bg-gray-100">
-                Skill 2
-              </Link>
-              <Link href="/skills/skill3" className="block px-4 py-2 hover:bg-gray-100">
-                Skill 3
-              </Link>
-              <Link href="/skills/skill4" className="block px-4 py-2 hover:bg-gray-100">
-                Skill 4
-              </Link>
-              <Link href="/skills/skill5" className="block px-4 py-2 hover:bg-gray-100">
-                Skill 5
-              </Link>
-            </div>
-          </div>
-
-          <Link href="/admission" className="text-gray-700 hover:text-indigo-600">
-            Admission
-          </Link>
-
-          {/* Online Courses Dropdown */}
-          <div className="relative group hidden sm:block">
-            <button className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600">
-              <span>Online Courses</span>
-              <FaChevronDown className="text-sm" />
-            </button>
-            <div className="absolute left-0 hidden group-hover:flex flex-col w-56 bg-white shadow-md rounded-md mt-2 py-2 transition duration-300 ease-in-out transform scale-95 group-hover:scale-100">
-              <Link href="/online-courses/course1" className="px-4 py-2 hover:bg-gray-100">
-                Course 1
-              </Link>
-              <Link href="/online-courses/course2" className="px-4 py-2 hover:bg-gray-100">
-                Course 2
-              </Link>
-              <Link href="/online-courses/course3" className="px-4 py-2 hover:bg-gray-100">
-                Course 3
-              </Link>
-            </div>
-          </div>
-        </div>
+       <ul className="menu hidden sm:flex items-center space-x-4">
+          <li><Link  className="uppercase hover:text-blue-700 transition duration-200 font-semibold" href={"#skills"}>skill Development</Link></li>
+          <li><Link className="uppercase hover:text-blue-700 transition duration-200 font-semibold" href={"#academy"}>Academy</Link></li>
+       </ul>
 
         {/* Login/Profile Button */}
         {loggedIn ? (
           <div className="relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 text-lg"
+              className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 text-lg bg-white p-3 shadow-2xl rounded-full border-gray-300 border"
             >
               <FaUser className="text-lg" />
-              <span>Profile</span>
+              
             </button>
 
             {/* Profile Dropdown */}

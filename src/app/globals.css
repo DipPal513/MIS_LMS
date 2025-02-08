@@ -5,3 +5,19 @@
 :root {
   --main-color: #312783;;
 }
+
+.fill-warning {
+  fill: #f7c32e !important;
+}
+.fill-blue{
+  fill:#1d3b53 !important
+}
+.fill-orange {
+  fill: #fd7e14 !important;
+}
+.fill-success {
+  fill: #0cbc87 !important;
+}
+.fill-warning {
+  fill: #f7c32e !important;
+}
