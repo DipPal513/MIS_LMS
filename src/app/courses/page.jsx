@@ -78,9 +78,7 @@ const AllCoursesPage = () => {
                   onClick={() => router.push(`/courses/${course.id}`)}
                 >
                   <img
-                    src={
-                      "https://plus.unsplash.com/premium_photo-1720287601920-ee8c503af775?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    }
+                    src={course.photo}
                     alt={course.title}
                     className="w-full h-48 object-cover rounded-t-md"
                   />
@@ -89,7 +87,9 @@ const AllCoursesPage = () => {
                       <FaBook className="inline-block mr-2 text-green-500" />
                       {course.title}
                     </h3>
-                    <p className="text-gray-600 mb-2 line-clamp-2">{course.description}</p>
+                    <p className="text-gray-600 mb-2 line-clamp-2">
+                      {course.description}
+                    </p>
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-md font-semibold">
                         <FaClock className="inline-block mr-2 text-blue-500" />
