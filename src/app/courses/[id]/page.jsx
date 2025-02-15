@@ -3,8 +3,9 @@ import { base_url } from "@/utils/URL";
 import useFetch from "@/utils/useFetch";
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -18,7 +19,8 @@ const courseDetailsPage = () => {
   const [contentData, setContentData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
   const fetchData = async () => {
     setLoading(true);
     setFetchError(null);
@@ -49,6 +51,35 @@ const courseDetailsPage = () => {
 
   const toggleAccordion = (index) => {
     setActiveAccordion(activeAccordion === index ? null : index);
+  };
+
+  const handleEnrollNow = () => {
+    setIsModalOpen(true);
+  };
+
+  const onConfirm = async () => {
+    const token = Cookies.get("token");
+    const userId = Cookies.get("id");
+
+    try {
+      await axios.post(
+        `${base_url}/course-users`,
+        {
+          course_id: id,
+          user_ids: [userId],
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          'Content-Type': 'application/json'
+        }
+      );
+      setIsModalOpen(false);
+      toast.success("Enrollment successful!");
+      router.push("/mycourses")
+    } catch (error) {
+      console.log("The error is: ",error);
+      toast.error("Enrollment failed. Please try again.");
+    }
   };
 
   if (courseLoading) {
@@ -114,7 +145,10 @@ const courseDetailsPage = () => {
           <h2 className="text-xl font-semibold mb-4">{courseDetails?.title}</h2>
           <p className="text-lg font-light ">{courseDetails?.price}</p>
           <p className="font-semibold mb-3"> $399</p>
-          <button className="w-full py-3 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+          <button
+            className="w-full py-3 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+            onClick={handleEnrollNow}
+          >
             Enroll Now
           </button>
         </div>
@@ -197,6 +231,34 @@ const courseDetailsPage = () => {
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300">
+       <div className="bg-white p-6 rounded-xl shadow-2xl w-96 transform scale-95 transition-transform duration-300 ease-out animate-fadeIn">
+         <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
+           Confirm Enrollment
+         </h2>
+         <p className="text-gray-600 text-center mb-6">
+           Are you sure you want to enroll in this course?
+         </p>
+         <div className="flex justify-center space-x-4">
+           <button
+             className="py-2 px-5 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition duration-200"
+             onClick={()=> isModalOpen(false)}
+           >
+             Cancel
+           </button>
+           <button
+             className="py-2 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 shadow-lg transition duration-200"
+             onClick={onConfirm}
+           >
+             Confirm
+           </button>
+         </div>
+       </div>
+     </div>
+ 
+      )}
     </div>
   );
 };

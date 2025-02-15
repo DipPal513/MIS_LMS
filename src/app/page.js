@@ -4,6 +4,10 @@ import AllCoursesPage from "./courses/page";
 
 export default function Home() {
   return (
-    <><Banner /><InfoPage /><AllCoursesPage /></>
+    <>
+    <Banner />
+    <InfoPage />
+    <AllCoursesPage />
+    </>
   );
 }

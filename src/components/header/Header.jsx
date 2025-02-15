@@ -21,6 +21,8 @@ const Header = () => {
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("name");
+    Cookies.remove("id");
     router.push("/login");
     toast.success("Logged out...");
     setIsLoggedIn(false);
