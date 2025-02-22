@@ -1,4 +1,5 @@
 "use client";
+import { useAppContext } from "@/context/AppProvider";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,8 +18,8 @@ const Header = () => {
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loggedIn, setIsLoggedIn] = useState(Cookies.get("token")); // State for menu visibility
-
+  // const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get("token")); // State for menu visibility
+  const {setIsLoggedIn,isLoggedIn} = useAppContext();
   const handleLogout = () => {
     Cookies.remove("token");
     Cookies.remove("name");
@@ -76,7 +77,7 @@ const Header = () => {
         </ul>
 
         {/* Login/Profile Button */}
-        {loggedIn ? (
+        {isLoggedIn ? (
           <div className="relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
