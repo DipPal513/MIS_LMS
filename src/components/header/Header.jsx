@@ -1,4 +1,5 @@
 "use client";
+import { useAppContext } from "@/context/AppContext";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,8 +18,9 @@ const Header = () => {
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loggedIn, setIsLoggedIn] = useState(Cookies.get("token")); // State for menu visibility
-
+ 
+  const {isLoggedIn,setIsLoggedIn,isLoading} = useAppContext();
+  console.log("the user is ",isLoggedIn)
   const handleLogout = () => {
     Cookies.remove("token");
     Cookies.remove("name");
@@ -76,7 +78,8 @@ const Header = () => {
         </ul>
 
         {/* Login/Profile Button */}
-        {loggedIn ? (
+        {isLoading ? <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+:isLoggedIn ? (
           <div className="relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -94,7 +97,7 @@ const Header = () => {
               }`}
             >
               <Link
-                href="/dashboard"
+                href="#"
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
                 <FaTachometerAlt className="inline mr-2" /> Dashboard

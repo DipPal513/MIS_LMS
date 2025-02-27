@@ -8,10 +8,11 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { base_url } from "@/utils/URL";
+import { useAppContext } from "@/context/AppContext";
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { isLoading,setIsLoggedIn, setIsLoading } = useAppContext();
   const router = useRouter();
   const {
     register,
@@ -21,7 +22,7 @@ const SignInPage = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await axios.post(base_url + "/clients/web/login", data, {
         headers: {
@@ -44,17 +45,18 @@ const SignInPage = () => {
           .then((userData) => {
             Cookies.set("id", userData?.data?.data?.id);
             Cookies.set("name", userData?.data?.data?.name);
+            setIsLoggedIn(true);
           });
         console.log("login data: ", loggedInUser);
         reset();
 
         toast.success("Login successful!");
-        setLoading(false);
+        setIsLoading(false);
         router.push("/");
       }
     } catch (error) {
       reset();
-      setLoading(false);
+      setIsLoading(false);
       console.log(error);
       // Handle error
       if (error.response) {
@@ -135,9 +137,9 @@ const SignInPage = () => {
           <button
             type="submit"
             className="w-full py-3 rounded-lg bg-main text-white font-semibold hover:bg-main-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-main transition-all"
-            disabled={loading}
+            disabled={isLoading}
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 

@@ -1,14 +1,14 @@
 "use client";
 import { base_url } from "@/utils/URL";
 import useFetch from "@/utils/useFetch";
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
+import "react-loading-skeleton/dist/skeleton.css";
 
 const courseDetailsPage = () => {
   const { id } = useParams();
@@ -34,9 +34,9 @@ const courseDetailsPage = () => {
         }
       );
       setContentData(response?.data?.data);
-      console.log(response)
+      console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setFetchError("Failed to fetch data. Please try again.");
     } finally {
       setLoading(false);
@@ -70,14 +70,14 @@ const courseDetailsPage = () => {
         },
         {
           headers: { Authorization: `Bearer ${token}` },
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         }
       );
       setIsModalOpen(false);
       toast.success("Enrollment successful!");
-      router.push("/mycourses")
+      router.push("/mycourses");
     } catch (error) {
-      console.log("The error is: ",error);
+      console.log("The error is: ", error);
       toast.error("Enrollment failed. Please try again.");
     }
   };
@@ -136,7 +136,9 @@ const courseDetailsPage = () => {
           </div>
           <div className="lg:w-2/3 lg:ml-6 text-left">
             <h1 className="text-3xl font-extrabold">{courseDetails?.title}</h1>
-            <p className="mt-2 text-lg font-light">{courseDetails?.description}</p>
+            <p className="mt-2 text-lg font-light">
+              {courseDetails?.description}
+            </p>
           </div>
         </div>
       </div>
@@ -232,32 +234,33 @@ const courseDetailsPage = () => {
         </div>
       </div>
 
-      {isModalOpen && (
-       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300">
-       <div className="bg-white p-6 rounded-xl shadow-2xl w-96 transform scale-95 transition-transform duration-300 ease-out animate-fadeIn">
-         <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
-           Confirm Enrollment
-         </h2>
-         <p className="text-gray-600 text-center mb-6">
-           Are you sure you want to enroll in this course?
-         </p>
-         <div className="flex justify-center space-x-4">
-           <button
-             className="py-2 px-5 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition duration-200"
-             onClick={()=> isModalOpen(false)}
-           >
-             Cancel
-           </button>
-           <button
-             className="py-2 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 shadow-lg transition duration-200"
-             onClick={onConfirm}
-           >
-             Confirm
-           </button>
-         </div>
-       </div>
-     </div>
- 
+      {isModalOpen ? (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300">
+          <div className="bg-white p-6 rounded-xl shadow-2xl w-96 transform scale-95 transition-transform duration-300 ease-out animate-fadeIn">
+            <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
+              Confirm Enrollment
+            </h2>
+            <p className="text-gray-600 text-center mb-6">
+              Are you sure you want to enroll in this course?
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                className="py-2 px-5 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition duration-200"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="py-2 px-5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 shadow-lg transition duration-200"
+                onClick={onConfirm}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
       )}
     </div>
   );

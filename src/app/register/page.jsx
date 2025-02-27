@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { base_url } from "@/utils/URL";
+import { useAppContext } from "@/context/AppContext";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const SignUpPage = () => {
     watch,
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const {isLoading,setIsLoading} = useAppContext();
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
