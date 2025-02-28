@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { HiArrowLeft } from "react-icons/hi"; // For the left arrow icon
-import { FaPlay } from "react-icons/fa"; // For the play icon
-import Link from "next/link";
 import useFetch from "@/utils/useFetch";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { FaPlay } from "react-icons/fa"; // For the play icon
+import { HiArrowLeft } from "react-icons/hi"; // For the left arrow icon
 
 // Sample data for the resources
 const resources = [

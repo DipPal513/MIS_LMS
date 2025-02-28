@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        spinSlow: "spin 3s linear infinite",
+        spinFast: "spin 0.5s linear infinite",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
