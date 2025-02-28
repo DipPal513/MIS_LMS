@@ -8,11 +8,19 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { base_url } from "@/utils/URL";
+
+const SignInPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+    const {setIsLoggedIn,isLoggedIn} = useAppContext();
+  
+
 import { useAppContext } from "@/context/AppContext";
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { isLoading,setIsLoggedIn, setIsLoading } = useAppContext();
+
   const router = useRouter();
   const {
     register,
@@ -53,8 +61,10 @@ const SignInPage = () => {
         toast.success("Login successful!");
         setIsLoading(false);
         router.push("/");
+        setIsLoggedIn(true)
       }
     } catch (error) {
+      setIsLoggedIn(false)
       reset();
       setIsLoading(false);
       console.log(error);
