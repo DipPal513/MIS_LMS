@@ -1,6 +1,5 @@
 "use client";
 import "@/app/globals.css";
-
 import { createContext, useContext, useState } from "react";
 
 const AppContext = createContext();
